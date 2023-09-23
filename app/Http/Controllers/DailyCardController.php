@@ -31,12 +31,13 @@ class DailyCardController extends Controller
     {
         //
         $validator = $request->validate([
-            'number_dailycard' => 'required|integer',
-            'total_dailycard' => 'required|integer|min:2|max:3',
+            'number_dailycard' => 'required',
+            'total_dailycard' => 'required|min:2|max:3',
             'cardtype' => 'required|array|min:1'
         ]);
 
         $cardtype = implode(" و ", $request->input('cardtype'));
+
         if ($request->input('is_loan') == 'on') {
             $loan = true;
             $loan_name = $request->input('loan_name');
@@ -47,7 +48,7 @@ class DailyCardController extends Controller
                 'loan_money' => $request->input('total_dailycard'),
                 'remm' => $request->input('remm')
             ]);
-
+            $add_loans->save();
         } else {
             $loan = false;
             $loan_name = '';
@@ -63,7 +64,6 @@ class DailyCardController extends Controller
         ]);
 
         $DailyCard->save();
-        $add_loans->save();
 
         $request->session()->put('key', 'value');
         session(['key' => 'value']);
@@ -72,6 +72,7 @@ class DailyCardController extends Controller
         session()->flash('dailycard_message_color', 'success'); // يمكنك استبدال 'success' بأي لون ترغب فيه
 
         return redirect()->route('dailys');
+        // dd($request);
     }
 
     /**

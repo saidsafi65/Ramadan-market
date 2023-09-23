@@ -31,6 +31,15 @@
                             {{ session('dailycard_message') }}
                         </div>
                     @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div id="error-message" class="alert alert-danger d-none"></div>
                     <div class="card-body">
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg1">

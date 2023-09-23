@@ -31,10 +31,10 @@ class DailyHomeNetController extends Controller
     {
         //
         $validator = $request->validate([
-            'homenet_name' => 'required|string|min:10|max:40',
-            'homenet_no' => 'required|integer|min:3|max:10',
+            'homenet_name' => 'required|string|min:5|max:40',
+            'homenet_no' => 'required|digits_between:3,10',
             'homenet_month' => 'required',
-            'homenet_total' => 'required|min:2|max:3'
+            'homenet_total' => 'required|digits_between:2,3',
         ]);
 
         if ($request->input('is_loan') == 'on') {
@@ -47,6 +47,7 @@ class DailyHomeNetController extends Controller
                 'loan_money' => $request->input('homenet_total'),
                 'remm' => $request->input('remm')
             ]);
+            $add_loans->save();
         } else {
             $loan = false;
             $loan_name = '';
@@ -61,9 +62,8 @@ class DailyHomeNetController extends Controller
             'loan_name' => $loan_name,
             'remm' => $request->input('remm')
         ]);
-        $homenet->save();
-        $add_loans->save();
 
+        $homenet->save();
         // قم بتخزين الرسالة واللون في الجلسة
         session()->flash('dailycard_message', 'تمت الاضافة بنجاح');
         session()->flash('dailycard_message_color', 'success'); // يمكنك استبدال 'success' بأي لون ترغب فيه
