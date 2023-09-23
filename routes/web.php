@@ -25,8 +25,8 @@ use App\Http\Controllers\AuthenticationControllerController;
 
 // Login application :
 Route::get('/', [AuthenticationControllerController::class, 'index'])->name('logins');
-Route::get('/login', [AuthenticationControllerController::class, 'index'])->name('login');
-Route::post('/login', [AuthenticationControllerController::class, 'dologin'])->name('login.post');
+Route::get('/login', [AuthenticationControllerController::class, 'forcelogin'])->name('login');
+Route::post('/dologin', [AuthenticationControllerController::class, 'dologin'])->name('login.post');
 Route::get('/home', [AuthenticationControllerController::class, 'home'])->name('home');
 
 // Registrated application :

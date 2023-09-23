@@ -32,7 +32,7 @@
                     <img src="{{ URL('loginRs/images/img-01.png') }}" alt="IMG">
                 </div>
 
-                <form method="POST" action="{{ route('login') }}" class="login100-form validate-form">
+                <form method="POST" action="{{ route('login.post') }}" class="login100-form validate-form">
                 @csrf
                     <span class="login100-form-title">
                         تسجيل الدخول

@@ -27,6 +27,10 @@ class AuthenticationControllerController extends Controller
             ]);
         }
     }
+    public function forcelogin()
+    {
+        return response()->view('login.login');
+    }
     public function home()
     {
         //
