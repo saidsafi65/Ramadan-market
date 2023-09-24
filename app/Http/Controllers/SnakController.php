@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DailyCard_P_O_S;
 use App\Models\loans;
+use App\Models\snak;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class DailyCardPOSController extends Controller
+class SnakController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,42 +32,39 @@ class DailyCardPOSController extends Controller
     {
         //
         $validator = validator($request->all(), [
-            'number_dailycard' => 'required',
-            'owner_dailycard_P_O_S' => 'required|min:3|max:50',
-            'total_dailycard' => 'required',
-            'cardtype' => 'required|array|min:1'
+            'snaks_prise' => 'required',
+            'snaks_type' => 'required|array|min:1'
         ]);
 
         if (!$validator->fails()) {
-            $cardtype = implode(" و ", $request->input('cardtype'));
+            $snaks_type = implode(" و ", $request->input('snaks_type'));
 
-            if ($request->input('is_loan') == 'on') {
+            if ($request->input('is_loan_snaks') == 'on') {
                 $loan = true;
-                $loan_name = $request->input('loan_name');
+                $loan_name = $request->input('loan_name_snaks');
 
                 $add_loans = new loans([
-                    'loan_type' => $cardtype,
-                    'loan_name' => $request->input('loan_name'),
-                    'loan_money' => $request->input('total_dailycard'),
-                    'remm' => $request->input('remm')
+                    'loan_type' => $snaks_type,
+                    'loan_name' => $request->input('loan_name_snaks'),
+                    'loan_money' => $request->input('snaks_prise'),
+                    'remm' => $request->input('remm_snaks')
                 ]);
                 $add_loans->save();
             } else {
                 $loan = false;
                 $loan_name = '';
             }
-            $DailyCard = new DailyCard_P_O_S([
+            $snak = new snak([
 
-                'number_dailycard' => $request->input('number_dailycard'),
-                'owner_dailycard' => $request->input('owner_dailycard_P_O_S'),
-                'total_dailycard' => $request->input('total_dailycard'),
-                'cardtype' => $cardtype,
+                'snaks_type' => $snaks_type,
+                'snaks_weight' => $request->input('snaks_weight'),
+                'snaks_prise' => $request->input('snaks_prise'),
                 'is_loan' => $loan,
                 'loan_name' => $loan_name,
-                'remm' => $request->input('remm')
+                'remm' => $request->input('remm_snaks')
             ]);
 
-            $isSave = $DailyCard->save();
+            $isSave = $snak->save();
 
             if ($isSave) {
                 return response()->json([
@@ -96,7 +93,7 @@ class DailyCardPOSController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DailyCard_P_O_S $dailyCard_P_O_S)
+    public function show(snak $snak)
     {
         //
     }
@@ -104,7 +101,7 @@ class DailyCardPOSController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DailyCard_P_O_S $dailyCard_P_O_S)
+    public function edit(snak $snak)
     {
         //
     }
@@ -112,7 +109,7 @@ class DailyCardPOSController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DailyCard_P_O_S $dailyCard_P_O_S)
+    public function update(Request $request, snak $snak)
     {
         //
     }
@@ -120,7 +117,7 @@ class DailyCardPOSController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DailyCard_P_O_S $dailyCard_P_O_S)
+    public function destroy(snak $snak)
     {
         //
     }

@@ -33,7 +33,7 @@ class DailyCardController extends Controller
         //
         $validator = validator($request->all(), [
             'number_dailycard' => 'required',
-            'total_dailycard' => 'required|min:2|max:3',
+            'total_dailycard' => 'required',
             'cardtype' => 'required|array|min:1'
         ]);
 

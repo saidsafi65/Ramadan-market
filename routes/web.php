@@ -3,6 +3,7 @@
 use App\Http\Controllers\DailyCardController;
 use App\Http\Controllers\DailyCardPOSController;
 use App\Http\Controllers\DailyHomeNetController;
+use App\Http\Controllers\SnakController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticationControllerController;
 use App\Models\DailyCard_P_O_S;
@@ -45,7 +46,8 @@ Route::post('/daily/cardstore', [DailyCardController::class, 'store'])->name('ca
 Route::resource('/daily/homenet',DailyHomeNetController::class);
 // DailyCard_P_O_S
 Route::resource('/daily/cardPOS',DailyCardPOSController::class);
-
+// DailySnak
+Route::resource('/daily/Snak',SnakController::class);
 
 
 
