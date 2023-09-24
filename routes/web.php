@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\DailyCardController;
+use App\Http\Controllers\DailyCardPOSController;
 use App\Http\Controllers\DailyHomeNetController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticationControllerController;
+use App\Models\DailyCard_P_O_S;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -41,6 +43,10 @@ Route::get('/daily', [AuthenticationControllerController::class, 'dailys'])->nam
 Route::post('/daily/cardstore', [DailyCardController::class, 'store'])->name('cardstore');
 // DailyHomeNet
 Route::resource('/daily/homenet',DailyHomeNetController::class);
+// DailyCard_P_O_S
+Route::resource('/daily/cardPOS',DailyCardPOSController::class);
+
+
 
 
 // Clear application cache:
