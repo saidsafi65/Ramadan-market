@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DailyHomeNet;
 use App\Models\loans;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class DailyHomeNetController extends Controller
 {
@@ -30,46 +31,61 @@ class DailyHomeNetController extends Controller
     public function store(Request $request)
     {
         //
-        $validator = $request->validate([
+        $validator = validator($request->all(),[
             'homenet_name' => 'required|string|min:5|max:40',
             'homenet_no' => 'required|digits_between:3,10',
             'homenet_month' => 'required',
             'homenet_total' => 'required|digits_between:2,3',
         ]);
 
-        if ($request->input('is_loan') == 'on') {
-            $loan = true;
-            $loan_name = $request->input('loan_name');
-
-            $add_loans = new loans([
-                'loan_type' => 'اشتراك انترنت منزلي',
-                'loan_name' => $request->input('loan_name'),
-                'loan_money' => $request->input('homenet_total'),
-                'remm' => $request->input('remm')
+        if(!$validator->fails()){
+            if ($request->input('is_loan_home') == 'on') {
+                $loan = true;
+                $loan_name = $request->input('loan_name_home');
+    
+                $add_loans = new loans([
+                    'loan_type' => 'اشتراك انترنت منزلي',
+                    'loan_name' => $request->input('loan_name_home'),
+                    'loan_money' => $request->input('homenet_total'),
+                    'remm' => $request->input('remm_home')
+                ]);
+                $add_loans->save();
+            } else {
+                $loan = false;
+                $loan_name = ' ';
+            }
+            $homenet = new DailyHomeNet([
+    
+                'homenet_name' => $request->input('homenet_name'),
+                'homenet_no' => $request->input('homenet_no'),
+                'homenet_month' => $request->input('homenet_month'),
+                'homenet_total' => $request->input('homenet_total'),
+                'is_loan' => $loan,
+                'loan_name' => $loan_name,
+                'remm' => $request->input('remm_home')
             ]);
-            $add_loans->save();
-        } else {
-            $loan = false;
-            $loan_name = '';
+    
+            $isSave = $homenet->save();
+            // قم بتخزين الرسالة واللون في الجلسة
+            // session()->flash('dailycard_message', 'تمت الاضافة بنجاح');
+            // session()->flash('dailycard_message_color', 'success'); // يمكنك استبدال 'success' بأي لون ترغب فيه
+            if ($isSave) {
+                return response()->json([
+                    'message' => 'تم حفظ العنصر بنجاح',
+                ], Response::HTTP_OK);
+            } else {
+                return response()->json([
+                    'message' => 'حدث مشكلة أثناء حفظ العنصر',
+                ], Response::HTTP_BAD_REQUEST);
+            }
+            // return redirect()->route('dailys');
+            // dd($request);
+        }else{
+            return response()->json([
+                'message' => $validator->getMessageBag()->first(),
+            ], Response::HTTP_BAD_REQUEST);
         }
-        $homenet = new DailyHomeNet([
-
-            'homenet_name' => $request->input('homenet_name'),
-            'homenet_no' => $request->input('homenet_no'),
-            'homenet_month' => $request->input('homenet_month'),
-            'homenet_total' => $request->input('homenet_total'),
-            'is_loan' => $loan,
-            'loan_name' => $loan_name,
-            'remm' => $request->input('remm')
-        ]);
-
-        $homenet->save();
-        // قم بتخزين الرسالة واللون في الجلسة
-        session()->flash('dailycard_message', 'تمت الاضافة بنجاح');
-        session()->flash('dailycard_message_color', 'success'); // يمكنك استبدال 'success' بأي لون ترغب فيه
-
-        return redirect()->route('dailys');
-        // dd($request);
+        
     }
 
     /**

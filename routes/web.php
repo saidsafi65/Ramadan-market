@@ -4,6 +4,8 @@ use App\Http\Controllers\DailyCardController;
 use App\Http\Controllers\DailyHomeNetController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticationControllerController;
+use Illuminate\Support\Facades\Artisan;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,7 +40,7 @@ Route::get('/daily', [AuthenticationControllerController::class, 'dailys'])->nam
 // DailyCard
 Route::post('/daily/cardstore', [DailyCardController::class, 'store'])->name('cardstore');
 // DailyHomeNet
-Route::post('/daily/homenet', [DailyHomeNetController::class, 'store'])->name('homenet.store');
+Route::resource('/daily/homenet',DailyHomeNetController::class);
 
 
 // Clear application cache:

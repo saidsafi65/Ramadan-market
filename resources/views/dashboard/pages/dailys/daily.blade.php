@@ -4,6 +4,10 @@
 
 @section('css')
     <script src="{{ asset('dashboard/dist/js/jquery-1.11.0.min.js') }}"></script>
+    <script src="{{ asset('dashboard/axios/node_modules/axios/dist/axios.min.js') }}"></script>
+    <script src="{{ asset('dashboard/dist/js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('dashboard/dist/js/sweetalert2@11.js') }}"></script>
+    <script src="{{ asset('dashboard/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
 
 @endsection
 
@@ -163,7 +167,8 @@
 
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-default" data-dismiss="modal">اغلاق</button>
-                            <button type="submit" id="store_dailycard" class="btn btn-primary">حفظ</button>
+                            <button type="button" id="store_dailycard" name="store_dailycard"
+                                class="btn btn-primary">حفظ</button>
                         </div>
                     </div>
                 </form>
@@ -229,11 +234,11 @@
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <input type="checkbox" id="is_loan" name="is_loan">
+                                                <input type="checkbox" id="is_loan_home" name="is_loan_home">
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" id="loan_name" name="loan_name"
-                                            placeholder="أدخل اسم المدين هنا....">
+                                        <input type="text" class="form-control" id="loan_name_home"
+                                            name="loan_name_home" placeholder="أدخل اسم المدين هنا....">
                                     </div>
                                     <!-- /input-group -->
                                 </div>
@@ -241,12 +246,14 @@
                             </div>
                             <br>
                             <h6 class="mt-4 mb-2">ملاحظات</h6>
-                            <input type="text" class="form-control" id="remm" name="remm"
+                            <input type="text" class="form-control" id="remm_home" name="remm_home"
                                 placeholder="ملاحظات اذا وجد">
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-default" data-dismiss="modal">اغلاق</button>
-                            <button type="submit" id="store_dailycard" class="btn btn-primary">حفظ</button>
+                            {{-- <button type="submit" id="store_dailycard" class="btn btn-primary">حفظ</button> --}}
+                            <button type="button" id="submitButton" name="submitButton"
+                                class="btn btn-primary">حفظ</button>
                         </div>
                     </div>
                 </form>
@@ -263,20 +270,140 @@
 <!-- ********************************************** -->
 
 @section('js')
+
     <script>
-        @if ($errors->has('cardtype'))
-            document.getElementById('error-message').classList.remove('d-none');
-            document.getElementById('error-message').textContent =
-                "هناك خطأ في البيانات التي أدخلتها. الرجاء التحقق من البيانات الخاصة بنوع البطاقة.";
-        @endif
-        // $('input[name="homenet_month"]').daterangepicker();
-        $(function() {
-            $('input[name="homenet_month"]').daterangepicker({
-                opens: 'left'
-            }, function(start, end, label) {
-                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end
-                    .format('YYYY-MM-DD'));
+        $(document).ready(function() {
+
+            @if ($errors->has('cardtype'))
+                document.getElementById('error-message').classList.remove('d-none');
+                document.getElementById('error-message').textContent =
+                    "هناك خطأ في البيانات التي أدخلتها. الرجاء التحقق من البيانات الخاصة بنوع البطاقة.";
+            @endif
+            // $('input[name="homenet_month"]').daterangepicker();
+            $(function() {
+                $('input[name="homenet_month"]').daterangepicker({
+                    opens: 'left'
+                }, function(start, end, label) {
+                    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') +
+                        ' to ' + end
+                        .format('YYYY-MM-DD'));
+                });
+            });
+
+            $("#store_dailycard").click(function() {
+                SaveCardDaily();
+            });
+            $("#submitButton").click(function() {
+                SaveHomeNet();
             });
         });
+        // لبطاقات الانترنت
+        function SaveCardDaily() {
+            axios.post('daily/cardstore', {
+                    cardtype: (() => {
+                        const cardtypeElements = document.querySelectorAll('[name="cardtype[]"]:checked');
+                        const cardtypeValues = Array.from(cardtypeElements).map(el => el.value);
+                        return cardtypeValues;
+                    })(),
+                    number_dailycard: document.getElementById('number_dailycard').value,
+                    total_dailycard: document.getElementById('total_dailycard').value,
+                    is_loan: document.getElementById('is_loan').checked,
+                    loan_name: document.getElementById('loan_name').value,
+                    remm: document.getElementById('remm').value,
+                })
+                .then(function(response) {
+                    console.log(response);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'تمت عملية الحفظ بنجاح \n' + response.data.message
+                    }).then(function() {
+                        window.location.href = '{{ route('dailys') }}';
+                    });
+                })
+                .catch(function(error) {
+                    console.log(error);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'فشل في عملية الحفظ\n' + error.response.data.message
+                    });
+                });
+        }
+        // للاشتراكات المنزلية
+        function SaveHomeNet() {
+            axios.post('daily/homenet', {
+                    homenet_name: document.getElementById('homenet_name').value,
+                    homenet_no: document.getElementById('homenet_no').value,
+                    homenet_month: document.getElementById('homenet_month').value,
+                    homenet_total: document.getElementById('homenet_total').value,
+                    is_loan_home: document.getElementById('is_loan_home').checked,
+                    loan_name_home: document.getElementById('loan_name_home').value,
+                    remm_home: document.getElementById('remm_home').value,
+                })
+                .then(function(response) {
+                    console.log(response);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'تمت عملية الحفظ بنجاح \n' + response.data.message
+                    }).then(function() {
+                        window.location.href = '{{ route('dailys') }}';
+                    });
+
+                })
+                .catch(function(error) {
+                    console.log(error);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'فشل في عملية الحفظ\n' + error.response.data.message
+                    })
+                });
+        }
     </script>
 @endsection
