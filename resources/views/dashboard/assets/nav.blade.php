@@ -54,6 +54,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{route('Balance.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>إضافة أرصدة</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>الديون</p>

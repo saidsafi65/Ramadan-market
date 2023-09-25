@@ -114,6 +114,58 @@
                     </div>
                     <!-- /.card -->
                 </div>
+
+                {{-- /new Div --}}
+                <div class="card card-primary card-outline">
+                    <div class="card-header ui-sortable-handle" style="cursor: move;">
+                        <h3 class="card-title">
+                            <i class="fas fa-solid fa-phone-volume"></i>
+                            <i class="fas fa-solid fa-bolt"></i>
+                            رصيد جوال أو وطنية أو كهرباء
+                        </h3>
+                        <div class="card-tools">
+                            {{-- <span title="3 New Messages" class="badge badge-primary">3</span> --}}
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    @if (session('dailycard_message'))
+                        <div class="alert alert-{{ session('dailycard_message_color') }}">
+                            {{ session('dailycard_message') }}
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <div id="error-message" class="alert alert-danger d-none"></div>
+                    <div class="card-body">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg5">
+                            رصيد جوال
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg6">
+                            رصيد وطنية
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg7">
+                            رصيد كهرباء
+                        </button>
+                    </div>
+                    <!-- /.card -->
+                </div>
             </div>
             <!-- /.col -->
         </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddBalanceController;
 use App\Http\Controllers\DailyCardController;
 use App\Http\Controllers\DailyCardPOSController;
 use App\Http\Controllers\DailyHomeNetController;
@@ -48,7 +49,8 @@ Route::resource('/daily/homenet',DailyHomeNetController::class);
 Route::resource('/daily/cardPOS',DailyCardPOSController::class);
 // DailySnak
 Route::resource('/daily/Snak',SnakController::class);
-
+// ADD Balance
+Route::resource('/Balance',AddBalanceController::class);
 
 
 // Clear application cache:
