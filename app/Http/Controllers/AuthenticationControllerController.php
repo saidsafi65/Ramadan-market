@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuthenticationController;
+use App\Models\ElectristyBalance;
+use App\Models\JawalBalance;
+use App\Models\OoredoOBalance;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +47,6 @@ class AuthenticationControllerController extends Controller
                 'alert-type' => 'danger'
             ]);
         }
-
     }
     public function dailys()
     {
@@ -52,15 +54,21 @@ class AuthenticationControllerController extends Controller
         if (Auth::check()) {
             $id = Auth::user()->getId();
             $user = User::findOrFail($id);
-            return response()->view('dashboard.pages.dailys.daily', ['user' => $user]);
+            $jawal_balance = JawalBalance::latest('updated_at')->first();
+            $OoredoO_balance = OoredoOBalance::latest('updated_at')->first();
+            $Electristy_balance = ElectristyBalance::latest('updated_at')->first();
+            return response()->view('dashboard.pages.dailys.daily', [
+                'user' => $user,
+                'jawal_balance' => $jawal_balance,
+                'OoredoO_balance' => $OoredoO_balance,
+                'Electristy_balance' => $Electristy_balance
+            ]);
         } else {
             return redirect()->route('login')->with([
                 'message' => 'These credentials do not match our records.',
                 'alert-type' => 'danger'
             ]);
         }
-
-
     }
     public function dologin(Request $request)
     {

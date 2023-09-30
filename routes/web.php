@@ -4,6 +4,7 @@ use App\Http\Controllers\AddBalanceController;
 use App\Http\Controllers\DailyCardController;
 use App\Http\Controllers\DailyCardPOSController;
 use App\Http\Controllers\DailyHomeNetController;
+use App\Http\Controllers\JawwalOoredooElectrsityController;
 use App\Http\Controllers\SnakController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticationControllerController;
@@ -51,6 +52,12 @@ Route::resource('/daily/cardPOS',DailyCardPOSController::class);
 Route::resource('/daily/Snak',SnakController::class);
 // ADD Balance
 Route::resource('/Balance',AddBalanceController::class);
+// ADD Sell Jawwal Ooredoo Electrsity Balance
+// Route::resource('/daily/JawwalOoredooElectrsity',JawwalOoredooElectrsityController::class);
+Route::post('/daily/JawwalOoredooElectrsity/jawwal', [JawwalOoredooElectrsityController::class, 'jawwal'])->name('jawwal');
+Route::post('/daily/JawwalOoredooElectrsity/ooredoo', [JawwalOoredooElectrsityController::class, 'ooredoo'])->name('ooredoo');
+Route::post('/daily/JawwalOoredooElectrsity/electrsity', [JawwalOoredooElectrsityController::class, 'electrsity'])->name('electrsity');
+
 
 
 // Clear application cache:

@@ -109,7 +109,7 @@
                     <div id="error-message" class="alert alert-danger d-none"></div>
                     <div class="card-body">
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg4">
-                            مبيعات المكسرات 
+                            مبيعات المكسرات
                         </button>
                     </div>
                     <!-- /.card -->
@@ -187,7 +187,18 @@
         {{--  مبيعات المكسرات --}}
         @include('dashboard.pages.dailys.contant.snaks')
         <!-- /.modal -->
-        
+
+        {{-- رصيد جوال --}}
+        @include('dashboard.pages.dailys.jawal_o_e_blance.jawwal')
+        <!-- /.modal -->
+
+        {{-- رصيد وطنية --}}
+        @include('dashboard.pages.dailys.jawal_o_e_blance.ooredoo')
+        <!-- /.modal -->
+
+        {{-- رصيد كهرباء --}}
+        @include('dashboard.pages.dailys.jawal_o_e_blance.electrsity')
+        <!-- /.modal -->
     </div>
 
 @endsection
@@ -205,7 +216,13 @@
     <script src="{{ asset('dashboard/page/js/SavePOS.js') }}"></script>
     {{--  مبيعات المكسرات --}}
     <script src="{{ asset('dashboard/page/js/SaveSnak.js') }}"></script>
-
+    {{--  رصيد جوال --}}
+    <script src="{{ asset('dashboard/page/selling/jawwal.js') }}"></script>
+    {{--  رصيد وطنية --}}
+    <script src="{{ asset('dashboard/page/selling/ooredoo.js') }}"></script>
+    {{--  رصيد كهرباء --}}
+    <script src="{{ asset('dashboard/page/selling/electrsity.js') }}"></script>
+    
     <script>
         $('#owner_dailycard_P_O_S').change(function() {
             $('#loan_name_P_O_S').val($(this).val());
@@ -223,6 +240,15 @@
             $("#store_snak").click(function() {
                 SaveSnak();
             });
+            $("#submitButton_jawwal").click(function() {
+                SaveJawwal();
+            });
+            $("#submitButton_ooredoo").click(function() {
+                SaveOoredoo();
+            });
+            $("#submitButton_electristy").click(function() {
+                SaveElectrsity();
+            });
             @if ($errors->has('cardtype'))
                 document.getElementById('error-message').classList.remove('d-none');
                 document.getElementById('error-message').textContent =
@@ -239,8 +265,48 @@
                 });
             });
         });
+
+        function toggleInputRequiredelectristy() {
+            var checkbox = document.getElementById("is_loan_electristy");
+            var inputText = document.getElementById("loan_name_electristy");
+            var errorMessage_electristy = document.getElementById("error_message_electristy");
+
+            if (checkbox.checked) {
+                inputText.required = true;
+                errorMessage_electristy.innerHTML = "يجب ملء هذا لوضع اسم المدين";
+            } else {
+                inputText.required = false;
+                errorMessage_electristy.innerHTML = "";
+            }
+        }
+
+        function toggleInputRequiredooredoo() {
+            var checkbox = document.getElementById("is_loan_ooredoo");
+            var inputText = document.getElementById("loan_name_ooredoo");
+            var errorMessage_ooredoo = document.getElementById("error_message_ooredoo");
+
+            if (checkbox.checked) {
+                inputText.required = true;
+                errorMessage_ooredoo.innerHTML = "يجب ملء هذا لوضع اسم المدين";
+            } else {
+                inputText.required = false;
+                errorMessage_ooredoo.innerHTML = "";
+            }
+        }
+
+        function toggleInputRequiredjawwal() {
+            var checkbox = document.getElementById("is_loan_jawwal");
+            var inputText = document.getElementById("loan_name_jawwal");
+            var errorMessage_jawwal = document.getElementById("error_message_jawwal");
+
+            if (checkbox.checked) {
+                inputText.required = true;
+                errorMessage_jawwal.innerHTML = "يجب ملء هذا لوضع اسم المدين";
+            } else {
+                inputText.required = false;
+                errorMessage_jawwal.innerHTML = "";
+            }
+        }
     </script>
-
-
 
 @endsection
