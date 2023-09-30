@@ -41,6 +41,7 @@ Route::get('/registrat', [AuthenticationControllerController::class, 'registrati
 Route::post('/registrated', [AuthenticationControllerController::class, 'doregistration'])->name('registrat.post');
 
 Route::get('/daily', [AuthenticationControllerController::class, 'dailys'])->name('dailys');
+Route::get('/expense', [AuthenticationControllerController::class, 'expenses'])->name('expenses');
 
 // DailyCard
 Route::post('/daily/cardstore', [DailyCardController::class, 'store'])->name('cardstore');
@@ -53,7 +54,6 @@ Route::resource('/daily/Snak',SnakController::class);
 // ADD Balance
 Route::resource('/Balance',AddBalanceController::class);
 // ADD Sell Jawwal Ooredoo Electrsity Balance
-// Route::resource('/daily/JawwalOoredooElectrsity',JawwalOoredooElectrsityController::class);
 Route::post('/daily/JawwalOoredooElectrsity/jawwal', [JawwalOoredooElectrsityController::class, 'jawwal'])->name('jawwal');
 Route::post('/daily/JawwalOoredooElectrsity/ooredoo', [JawwalOoredooElectrsityController::class, 'ooredoo'])->name('ooredoo');
 Route::post('/daily/JawwalOoredooElectrsity/electrsity', [JawwalOoredooElectrsityController::class, 'electrsity'])->name('electrsity');

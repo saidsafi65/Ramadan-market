@@ -70,6 +70,22 @@ class AuthenticationControllerController extends Controller
             ]);
         }
     }
+    public function expenses()
+    {
+        //
+        if (Auth::check()) {
+            $id = Auth::user()->getId();
+            $user = User::findOrFail($id);
+            return response()->view('dashboard.pages.expenses.expense', [
+                'user' => $user,
+            ]);
+        } else {
+            return redirect()->route('login')->with([
+                'message' => 'These credentials do not match our records.',
+                'alert-type' => 'danger'
+            ]);
+        }
+    }
     public function dologin(Request $request)
     {
         $validator = Validator::make($request->all(), [
