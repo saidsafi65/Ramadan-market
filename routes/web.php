@@ -8,6 +8,8 @@ use App\Http\Controllers\JawwalOoredooElectrsityController;
 use App\Http\Controllers\SnakController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticationControllerController;
+use App\Http\Controllers\PersonalExpenseController;
+use App\Http\Controllers\WorkerExpenseController;
 use App\Models\DailyCard_P_O_S;
 use Illuminate\Support\Facades\Artisan;
 
@@ -46,25 +48,30 @@ Route::get('/expense', [AuthenticationControllerController::class, 'expenses'])-
 // DailyCard
 Route::post('/daily/cardstore', [DailyCardController::class, 'store'])->name('cardstore');
 // DailyHomeNet
-Route::resource('/daily/homenet',DailyHomeNetController::class);
+Route::resource('/daily/homenet', DailyHomeNetController::class);
 // DailyCard_P_O_S
-Route::resource('/daily/cardPOS',DailyCardPOSController::class);
+Route::resource('/daily/cardPOS', DailyCardPOSController::class);
 // DailySnak
-Route::resource('/daily/Snak',SnakController::class);
+Route::resource('/daily/Snak', SnakController::class);
 // ADD Balance
-Route::resource('/Balance',AddBalanceController::class);
+Route::resource('/Balance', AddBalanceController::class);
 // ADD Sell Jawwal Ooredoo Electrsity Balance
 Route::post('/daily/JawwalOoredooElectrsity/jawwal', [JawwalOoredooElectrsityController::class, 'jawwal'])->name('jawwal');
 Route::post('/daily/JawwalOoredooElectrsity/ooredoo', [JawwalOoredooElectrsityController::class, 'ooredoo'])->name('ooredoo');
 Route::post('/daily/JawwalOoredooElectrsity/electrsity', [JawwalOoredooElectrsityController::class, 'electrsity'])->name('electrsity');
 
+// ADD personal expense  Balance
+Route::post('/expense/personal', [PersonalExpenseController::class, 'store'])->name('expense.personal');
+// ADD worker expense  Balance
+Route::post('/expense/worker', [WorkerExpenseController::class, 'store'])->name('expense.worker');
+
 
 
 // Clear application cache:
-Route::get('/clear-cache', function() {
+Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
-	Artisan::call('route:cache');
- 	Artisan::call('config:cache');
+    Artisan::call('route:cache');
+    Artisan::call('config:cache');
     Artisan::call('view:clear');
     return 'Application cache , Routes , Config , View has been cleared';
 });
