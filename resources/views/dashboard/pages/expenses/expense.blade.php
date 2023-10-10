@@ -196,11 +196,11 @@
         <!-- /.modal -->
 
         {{--  مصروفات اكسسوارات جوال --}}
-        {{-- @include('dashboard.pages.dailys.contant.snaks') --}}
+        @include('dashboard.pages.expenses.contant.mobile')
         <!-- /.modal -->
 
         {{-- مصروفات مكسرات --}}
-        {{-- @include('dashboard.pages.dailys.jawal_o_e_blance.jawwal') --}}
+        @include('dashboard.pages.expenses.contant.snaks')
         <!-- /.modal -->
 
         {{-- مصروفات شبكات --}}
@@ -212,7 +212,7 @@
         <!-- /.modal -->
 
         {{-- دفع اشتراكات انترنت --}}
-        {{-- @include('dashboard.pages.dailys.jawal_o_e_blance.electrsity') --}}
+        @include('dashboard.pages.expenses.contant.internet_sub')
         <!-- /.modal -->
 
         {{-- مصروفات كهرباء --}}
@@ -226,16 +226,16 @@
 
 @section('js')
 
-    {{-- // لبطاقات الانترنت --}}
+    {{-- مصروف شخصي --}}
     <script src="{{ asset('dashboard/page/js/personal_expense.js') }}"></script>
-    {{-- // للاشتراكات المنزلية --}}
+    {{-- رواتب عمال --}}
     <script src="{{ asset('dashboard/page/js/worker_expense.js') }}"></script>
-    {{-- // لنقاط البيع محلات --}}
-    {{-- <script src="{{ asset('dashboard/page/js/SavePOS.js') }}"></script> --}}
-    {{--  مبيعات المكسرات --}}
-    {{-- <script src="{{ asset('dashboard/page/js/SaveSnak.js') }}"></script> --}}
-    {{--  رصيد جوال --}}
-    {{-- <script src="{{ asset('dashboard/page/selling/jawwal.js') }}"></script> --}}
+    {{-- دفع اشتراكات انترنت --}}
+    <script src="{{ asset('dashboard/page/js/internet_sub.js') }}"></script>
+    {{--  مصروفات اكسسوارات جوال --}}
+    <script src="{{ asset('dashboard/page/js/mobileEx.js') }}"></script>
+    {{-- مصروفات مكسرات --}}
+    <script src="{{ asset('dashboard/page/js/snakEx.js') }}"></script>
     {{--  رصيد وطنية --}}
     {{-- <script src="{{ asset('dashboard/page/selling/ooredoo.js') }}"></script> --}}
     {{--  رصيد كهرباء --}}
@@ -249,22 +249,48 @@
             $("#store_worker_expense").click(function() {
                 worker_expense();
             });
-            // $("#store_dailycard_P_O_S").click(function() {
-            //     SavePOS();
-            // });
-            // $("#store_snak").click(function() {
-            //     SaveSnak();
-            // });
-            // $("#submitButton_jawwal").click(function() {
-            //     SaveJawwal();
-            // });
+            $("#store_internet_sub").click(function() {
+                internet_sub();
+            });
+            $("#store_mobileEx").click(function() {
+                mobileEx();
+            });
+            $("#store_snakEx").click(function() {
+                snakEx();
+            });
             // $("#submitButton_ooredoo").click(function() {
             //     SaveOoredoo();
             // });
             // $("#submitButton_electristy").click(function() {
             //     SaveElectrsity();
             // });
-
         });
+
+        function toggleInputRequiredmobileEx() {
+            var checkbox = document.getElementById("is_loan_mobileEx");
+            var inputText = document.getElementById("loan_name_mobileEx");
+            var errorMessage_electristy = document.getElementById("error_message_mobileEx");
+
+            if (checkbox.checked) {
+                inputText.required = true;
+                errorMessage_electristy.innerHTML = "يجب ملء هذا لوضع اسم التاجر";
+            } else {
+                inputText.required = false;
+                errorMessage_electristy.innerHTML = "";
+            }
+        }
+        function toggleInputRequiredsnakEx() {
+            var checkbox = document.getElementById("is_loan_snakEx");
+            var inputText = document.getElementById("loan_name_snakEx");
+            var errorMessage_electristy = document.getElementById("error_message_snakEx");
+
+            if (checkbox.checked) {
+                inputText.required = true;
+                errorMessage_electristy.innerHTML = "يجب ملء هذا لوضع اسم التاجر";
+            } else {
+                inputText.required = false;
+                errorMessage_electristy.innerHTML = "";
+            }
+        }
     </script>
 @endsection

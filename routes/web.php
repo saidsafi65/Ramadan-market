@@ -4,8 +4,11 @@ use App\Http\Controllers\AddBalanceController;
 use App\Http\Controllers\DailyCardController;
 use App\Http\Controllers\DailyCardPOSController;
 use App\Http\Controllers\DailyHomeNetController;
+use App\Http\Controllers\InternetSubscriptionController;
 use App\Http\Controllers\JawwalOoredooElectrsityController;
+use App\Http\Controllers\MobileExExpenseController;
 use App\Http\Controllers\SnakController;
+use App\Http\Controllers\SnakExExpenseController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticationControllerController;
 use App\Http\Controllers\PersonalExpenseController;
@@ -62,8 +65,14 @@ Route::post('/daily/JawwalOoredooElectrsity/electrsity', [JawwalOoredooElectrsit
 
 // ADD personal expense  Balance
 Route::post('/expense/personal', [PersonalExpenseController::class, 'store'])->name('expense.personal');
-// ADD worker expense  Balance
+// ADD worker expense
 Route::post('/expense/worker', [WorkerExpenseController::class, 'store'])->name('expense.worker');
+// ADD internet subscription expense
+Route::post('/expense/internet', [InternetSubscriptionController::class, 'store'])->name('expense.internet');
+// ADD mobileEx expense
+Route::post('/expense/mobileEx', [MobileExExpenseController::class, 'store'])->name('expense.mobileEx');
+// ADD snakEx expense
+Route::post('/expense/snakEx', [SnakExExpenseController::class, 'store'])->name('expense.snakEx');
 
 
 

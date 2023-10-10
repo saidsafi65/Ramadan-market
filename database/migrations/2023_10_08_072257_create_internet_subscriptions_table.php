@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trader_debts', function (Blueprint $table) {
+        Schema::create('internet_subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('debt_type',300);
-            $table->string('debt_name');
-            $table->decimal('debt_money');
-            $table->string('remm')->nullable();
-            $table->timestamp('date_paying')->nullable();
+            $table->string('internet_sub_salarie');
+            $table->decimal('internet_sub_total');
+            $table->string('internet_sub_remm')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trader_debts');
+        Schema::dropIfExists('internet_subscriptions');
     }
 };
